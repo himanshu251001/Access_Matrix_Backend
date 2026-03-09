@@ -1,0 +1,45 @@
+export const employeeSelect = {
+  id: true,
+  full_name: true,
+  email: true,
+  department: true,
+  location: true,
+  grade: true,
+  job_title: true,
+};
+
+export const managerSelect = {
+  id: true,
+  full_name: true,
+  email: true,
+  phone_number: true,
+  department: true,
+  location: true,
+  grade: true,
+  job_title: true,
+  salary: true,
+  phone_number: true,
+  emergency_contact_phone: true,
+  emergency_contact_name: true,
+  date_of_joining: true,
+  performance_rating: true,
+};
+
+export const directorSelect = {
+  id: true,
+  full_name: true,
+  email: true,
+  phone_number: true,
+  department: true,
+  location: true,
+  grade: true,
+  job_title: true,
+  salary: true,
+  phone_number: true,
+  emergency_contact_phone: true,
+  emergency_contact_name: true,
+  date_of_joining: true,
+  attrition_risk: true,
+  potential_rating: true,
+  performance_rating: true,
+};

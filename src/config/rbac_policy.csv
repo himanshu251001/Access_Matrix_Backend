@@ -1,0 +1,6 @@
+p, employee, employee:view, GET
+p, manager, manager:view, GET
+p, director, director:view, GET
+
+g, manager, employee
+g, director, manager

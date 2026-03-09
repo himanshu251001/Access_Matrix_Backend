@@ -1,0 +1,125 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+
+enum Grade {
+  G0
+  G1
+  G2
+  G3
+  G4
+  G5
+  G6
+  G7
+  G8
+  G9
+  M1
+  M2
+  M3
+  M4
+  M5
+  M6
+  D1
+  D2
+  D3
+  D4
+  D5
+  D6
+  P1
+  P2
+  P3
+  P4
+  P5
+  P6
+  P7
+}
+
+
+
+enum JobTitle {
+  SOFTWARE_ENGINEER
+  SENIOR_ENGINEER
+  TECH_LEAD
+  ENGINEERING_MANAGER
+  DIRECTOR
+  HR_MANAGER
+  FINANCE_MANAGER
+  PRODUCT_MANAGER
+  CEO
+}
+
+enum Department {
+  ENGINEERING
+  FINANCE
+  HR
+  SALES
+  MARKETING
+  PRODUCT
+  OPERATIONS
+  LEGAL
+}
+
+enum PerformanceRating {
+  NOT_RATED @map("0")
+  ONE   @map("1")
+  TWO   @map("2")
+  THREE @map("3")
+  FOUR  @map("4")
+  FIVE  @map("5")
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum PotentialLevel {
+  UNKNOWN
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model Employee {
+  id                      Int               @id @default(autoincrement())
+  full_name               String            @db.VarChar(150)
+  email                   String            @unique @db.VarChar(255)
+  phone_number            String            @db.VarChar(10)
+
+  job_title               JobTitle
+  department              Department
+
+  report_to_id            Int?
+  passwordHash            String            @db.VarChar(255)
+
+  grade                   Grade
+  location                String            @db.VarChar(200)
+
+  emergency_contact_name  String            @db.VarChar(100)
+  emergency_contact_phone String            @db.VarChar(10)
+
+  salary                  Decimal           @db.Decimal(12, 2)
+
+  performance_rating      PerformanceRating @default(NOT_RATED)
+  attrition_risk          RiskLevel         @default(LOW)
+  potential_rating        PotentialLevel    @default(UNKNOWN)
+  date_of_joining         DateTime          @default(now())
+
+  created_at              DateTime          @default(now())
+  updated_at              DateTime          @updatedAt
+  refreshToken            String?           @db.VarChar(255)
+  gender                  String?          @db.VarChar(10)
+
+  @@map("employees")
+}

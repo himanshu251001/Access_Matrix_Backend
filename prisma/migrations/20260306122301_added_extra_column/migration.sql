@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "employees" ADD COLUMN     "date_of_joining" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ADD COLUMN     "gender" VARCHAR(10);
