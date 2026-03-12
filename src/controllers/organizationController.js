@@ -4,30 +4,31 @@ import { employeeSelect, managerSelect, directorSelect } from '../models/db.js';
 
 export async function getAllRecords(req, res, next) {
     try {
-        const viewType = req.query.view;
+        const employees = await prisma.employee.findMany({
+            select: employeeSelect,
+            orderBy: { id: 'desc' }
+        });
+        return res.json({ data: employees });
+
+
+    } catch (err) {
+        next(err);
+    }
+}
+
+export async function getTeams(req, res, next) {
+    try {
         const reqUser = req.user;
+        const role = reqUser.role;
 
-        if (!['employee', 'manager', 'director'].includes(viewType)) {
-            return res.status(400).json({ error: 'Invalid view type. Must be employee, manager, or director.' });
-        }
-
-        if (viewType === 'employee') {
-            const employees = await prisma.employee.findMany({
-                select: employeeSelect,
-                orderBy: { id: 'desc' }
-            });
-            return res.json({ data: employees });
-        }
-
-
-        if (viewType === 'manager' || viewType === 'director') {
+        if (role === 'manager' || role === 'director' || role === 'lead') {
             const allEmployeesIds = await getAllSubordinateIds([reqUser.id]);
 
             if (!allEmployeesIds.length) {
                 return res.json({ data: [] });
             }
 
-            const viewSelect = viewType === 'manager' ? managerSelect : directorSelect;
+            const viewSelect = role === 'lead' ? employeeSelect: role === 'manager' ? managerSelect : directorSelect;
             const allEmployees = await getAllSubordinates(allEmployeesIds, viewSelect);
             return res.json({ data: allEmployees });
         }

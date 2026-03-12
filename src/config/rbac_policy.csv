@@ -1,6 +1,7 @@
-p, employee, employee:view, GET
-p, manager, manager:view, GET
-p, director, director:view, GET
+
+p, manager, /teams, GET
+p, director, /teams, GET
+p, lead, /teams, GET
 
 g, manager, employee
 g, director, manager
