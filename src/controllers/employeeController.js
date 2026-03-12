@@ -53,12 +53,12 @@ class EmployeeController {
                 where: { id: reqUser.id },
                 select: viewSelect
             });
-            employee.role = role;
-            employee.isImpersonation = reqUser.is_impersonation;
-            employee.impersonatedBy = reqUser.impersonated_by;
             if (!employee) {
                 return res.status(404).json({ error: 'Employee not found' });
             }
+            employee.role = role;
+            employee.isImpersonation = reqUser.is_impersonation;
+            employee.impersonatedBy = reqUser.impersonated_by;
 
             return res.json({ data: employee });
 
