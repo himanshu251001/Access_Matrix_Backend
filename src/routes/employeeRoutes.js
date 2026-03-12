@@ -5,6 +5,6 @@ const router = Router();
 
 router.get('/views', EmployeeController.getAvailableViews);
 router.get('/profile', EmployeeController.getProfile);
-// Add more routes as needed in Future
+router.get('/search', EmployeeController.searchEmployees);
 
 export default router;

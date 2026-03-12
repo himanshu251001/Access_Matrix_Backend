@@ -1,7 +1,7 @@
 import { getEnforcer } from '../config/casbin.js';
 import { Helper } from '../utils/helper.js';
 
-const roleMiddleware = async (req, res, next) => {
+const roleMiddleware = () => async (req, res, next) => {
     try {
         const user = req.user;
 
@@ -9,21 +9,14 @@ const roleMiddleware = async (req, res, next) => {
             return res.status(401).json({ error: 'Authentication required' });
         }
 
-        const role = Helper.deriveRole(user.grade);
+        const role = await Helper.deriveRole(user.grade, user.id);
         req.user.role = role;
 
         const enforcer = await getEnforcer();
-
-        const viewType = req.query.view;
         const method = req.method.toUpperCase();
-        let allowed = false;
+        const resource = req.path;
 
-        if (viewType) {
-            const viewResource = `${viewType}:view`;
-            allowed = await enforcer.enforce(role, viewResource, method);
-        } else {
-            return res.status(400).json({ error: 'Required view type is missing' });
-        }
+        const allowed = await enforcer.enforce(role, resource, method);
 
         if (!allowed) {
             return res.status(403).json({
